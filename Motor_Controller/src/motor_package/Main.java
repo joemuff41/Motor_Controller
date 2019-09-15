@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		MultiAxisMotorController controller = new MultiAxisMotorController(2, new String[] {"COM3", "COM9"});
+		MultiAxisMotorController controller = new MultiAxisMotorController(2, new String[] {"COM3", "COM4"});
 		
 		try {
 			TimeUnit.SECONDS.sleep(2);

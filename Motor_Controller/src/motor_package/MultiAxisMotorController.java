@@ -3,6 +3,8 @@ package motor_package;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService; 
+import java.util.concurrent.Executors; 
 
 public class MultiAxisMotorController {
 
@@ -12,6 +14,7 @@ public class MultiAxisMotorController {
 	private int numMotors;
 	private String[] motorNames;
 	private boolean[] motorIsBusy;
+	private ExecutorService threadPool;
 	
 	//Types of orders in the serial communication
 	public enum Order {
@@ -44,6 +47,7 @@ public class MultiAxisMotorController {
 		readers = new SerialReader[numMotors];
 		confirmedMove = new byte[numMotors][VALUE_LENGTH + 2];
 		motorIsBusy = new boolean[numMotors];
+		threadPool = Executors.newFixedThreadPool(numMotors);
 		
 		//Get all the port names and connect to the various ports
 		for (int i = 0; i < numMotors; i++) {
@@ -191,7 +195,7 @@ public class MultiAxisMotorController {
         	}
         });
         
-        t.start();
+        threadPool.execute(t);
     }
 	
 	/**
