@@ -75,6 +75,17 @@ public class MultiAxisMotorController {
 		//Connect the port for the motor
 		boolean connected = readers[aMotorNumber].connectPort(motorNames[aMotorNumber]);
 		System.out.println("Connected to port " + motorNames[aMotorNumber] + ": " + connected);
+		while (!connected) {
+			readers[aMotorNumber].disconnectPort(motorNames[aMotorNumber]);
+			try {
+				TimeUnit.MILLISECONDS.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			connected = readers[aMotorNumber].connectPort(motorNames[aMotorNumber]);
+			System.out.println("Connected to port " + motorNames[aMotorNumber] + ": " + connected);
+		}
 		writeMessage(aMotorNumber, Order.HELLO);
 			
 		while (!readers[aMotorNumber].hasMessage(motorNames[aMotorNumber])) {
@@ -106,6 +117,10 @@ public class MultiAxisMotorController {
 	
 	public String[] getAvailablePortNames() {
 		return readers[0].getPorts();
+	}
+	
+	public void shutdown() {
+		threadPool.shutdown();
 	}
 	
 	

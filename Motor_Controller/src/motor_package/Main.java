@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		MultiAxisMotorController controller = new MultiAxisMotorController(2, new String[] {"COM3", "COM4"});
+		MultiAxisMotorController controller = new MultiAxisMotorController(2, new String[] {"COM3", "COM9"});
 		
 		try {
 			TimeUnit.SECONDS.sleep(2);
@@ -54,6 +54,7 @@ public class Main {
 				
 				if (command.length == 1 && command[0].equalsIgnoreCase("Q")) {
 					System.out.println("Program terminating");
+					controller.shutdown();
 					break;
 				}
 				
